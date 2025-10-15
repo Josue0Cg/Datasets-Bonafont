@@ -16,3 +16,10 @@ except FileNotFoundError:
     print(f"ERROR: Archivo no encontrado en la ruta: {FILE_NAME}")
     exit()
 
+# paso 1, renombrar las columnas
+print("\n--- PASO 1: Renombrando Columnas ---")
+
+df.rename(columns={'Code': 'AirlineID', 'Description': 'AirlineName'}, inplace=True)
+
+print("Nuevas columnas:", df.columns.tolist())
+print(df.head())
