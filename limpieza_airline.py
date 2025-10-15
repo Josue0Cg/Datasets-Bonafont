@@ -16,7 +16,7 @@ except FileNotFoundError:
     print(f"ERROR: Archivo no encontrado en la ruta: {FILE_NAME}")
     exit()
 
-# paso 1, renombrar las columnas
+# paso 2, renombrar las columnas
 print("\n--- PASO 1: Renombrando Columnas ---")
 
 df.rename(columns={'Code': 'AirlineID', 'Description': 'AirlineName'}, inplace=True)
@@ -44,3 +44,22 @@ duplicados_despues = df.duplicated().sum()
 
 print(f"Se eliminaron {duplicados_antes - duplicados_despues} filas duplicadas.")
 
+# paso 4 limpiar el campo AirlineName
+print("\n--- PASO 3: Limpieza y Estandarización de AirlineName ---")
+
+#separar el nombre del código 
+df[['AirlineName_Clean', 'AirlineCode']] = df['AirlineName'].str.rsplit(':', n=1, expand=True)
+
+# eliminar comillas 
+df['AirlineName_Clean'] = df['AirlineName_Clean'].str.strip().str.replace('"', '', regex=False)
+
+# eliminar espacios extra
+df['AirlineCode'] = df['AirlineCode'].str.strip()
+
+#reemplazar la columna antigua y eliminar columnas intermedias si es necesario
+df.drop('AirlineName', axis=1, inplace=True)
+df.rename(columns={'AirlineName_Clean': 'AirlineName'}, inplace=True)
+
+
+print("Muestra después de la separación:")
+print(df[['AirlineID', 'AirlineName', 'AirlineCode']].head())
