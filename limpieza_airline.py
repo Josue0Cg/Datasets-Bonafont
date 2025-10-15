@@ -23,3 +23,24 @@ df.rename(columns={'Code': 'AirlineID', 'Description': 'AirlineName'}, inplace=T
 
 print("Nuevas columnas:", df.columns.tolist())
 print(df.head())
+
+# paso 3, manejo de valores nulos y duplicados
+print("\n--- PASO 2: Manejo de Nulos y Duplicados ---")
+
+# nulos
+nulos_antes = df.isnull().sum()
+print("Nulos en AirlineName antes de limpiar:", nulos_antes['AirlineName'])
+
+df.dropna(subset=['AirlineID', 'AirlineName'], inplace=True)
+
+nulos_despues = df.isnull().sum()
+print("Nulos en AirlineName despues de limpiar:", nulos_despues['AirlineName'])
+print("Filas restantes después de eliminar nulos:", len(df))
+
+# duplicados
+duplicados_antes = df.duplicated().sum()
+df.drop_duplicates(inplace=True)
+duplicados_despues = df.duplicated().sum()
+
+print(f"Se eliminaron {duplicados_antes - duplicados_despues} filas duplicadas.")
+
