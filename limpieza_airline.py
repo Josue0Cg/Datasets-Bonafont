@@ -63,3 +63,14 @@ df.rename(columns={'AirlineName_Clean': 'AirlineName'}, inplace=True)
 
 print("Muestra después de la separación:")
 print(df[['AirlineID', 'AirlineName', 'AirlineCode']].head())
+
+#paso final guardar el archivo limpio
+print("\n--- PASO FINAL: Guardando el Archivo Limpio ---")
+
+# Convertir el ID a entero antes de guardar
+df['AirlineID'] = df['AirlineID'].astype(int)
+
+df.to_csv(OUTPUT_NAME, index=False, encoding='utf-8')
+
+print(f"Archivo limpio guardado exitosamente como: {OUTPUT_NAME}")
+print("\n¡Limpieza completada!")
